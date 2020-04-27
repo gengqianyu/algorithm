@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="420f8990-beb3-4e75-8942-c8a7379220a2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recursion/maze/depth.go" beforeDir="false" afterPath="$PROJECT_DIR$/recursion/maze/depth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recursion/recursion.go" beforeDir="false" afterPath="$PROJECT_DIR$/recursion/recursion.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/os/mem.go" beforeDir="false" afterPath="$PROJECT_DIR$/os/mem.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,9 +157,10 @@
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state x="3702" y="343" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1587691645924">
-      <screen x="3000" y="0" width="1920" height="1080" />
+    <state x="439" y="254" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1587964168422">
+      <screen x="0" y="0" width="1200" height="800" />
     </state>
+    <state x="439" y="254" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1200.800/3000.0.1920.1080@0.0.1200.800" timestamp="1587964168422" />
     <state x="3702" y="343" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1200.800/3000.0.1920.1080@3000.0.1920.1080" timestamp="1587691645924" />
     <state width="1237" height="91" key="GridCell.Tab.0.bottom" timestamp="1587649407657">
       <screen x="3000" y="0" width="1920" height="1080" />
@@ -194,10 +194,6 @@
       <screen x="3000" y="0" width="1920" height="1080" />
     </state>
     <state x="3092" y="92" width="1736" height="896" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1200.800/3000.0.1920.1080@3000.0.1920.1080" timestamp="1587647723893" />
-    <state x="3638" y="273" width="643" height="534" key="find.popup" timestamp="1579189970513">
-      <screen x="3000" y="0" width="1920" height="1080" />
-    </state>
-    <state x="3638" y="273" width="643" height="534" key="find.popup/0.0.1200.800/3000.0.1920.1080@3000.0.1920.1080" timestamp="1579189970513" />
     <state x="3827" y="406" width="250" height="278" key="jetbrains.javascript.buildTools.run-task-popup" timestamp="1582353351851">
       <screen x="3000" y="0" width="1920" height="1080" />
     </state>
