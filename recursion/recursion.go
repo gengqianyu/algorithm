@@ -96,8 +96,8 @@ func add(n int) int {
 	return n + add(n-1)
 }
 
-//约瑟夫
-//r 人数切片，开始位置，
+//约瑟夫 后期可以尝试递归可能会简单
+//r 人数切片，s开始位置，j步数
 func joseph(r []string, s, j int) ([]string, error) {
 	if len(r) < s {
 		return nil, errors.New("s 溢出")
