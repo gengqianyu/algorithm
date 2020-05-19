@@ -66,13 +66,13 @@
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\go\algorithm\recursion\maze" />
-      <recent name="D:\go\algorithm\text" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\go\algorithm\list" />
       <recent name="D:\go\algorithm" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\go\algorithm\recursion\maze" />
+      <recent name="D:\go\algorithm\text" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build algorithm/recursion/maze">
