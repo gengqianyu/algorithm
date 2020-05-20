@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="420f8990-beb3-4e75-8942-c8a7379220a2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/sort/bubble.go" beforeDir="false" afterPath="$PROJECT_DIR$/sort/bubble/bubble.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sort/bubble/bubble.go" beforeDir="false" afterPath="$PROJECT_DIR$/sort/bubble/bubble.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,16 +66,17 @@
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\go\algorithm\list" />
-      <recent name="D:\go\algorithm" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\go\algorithm\recursion\maze" />
       <recent name="D:\go\algorithm\text" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\go\algorithm\sort\bubble" />
+      <recent name="D:\go\algorithm\list" />
+      <recent name="D:\go\algorithm" />
+    </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build algorithm/recursion/maze">
+  <component name="RunManager" selected="Go Build.go build algorithm/sort">
     <configuration name="go build algorithm/recursion" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="algorithm" />
       <working_directory value="$PROJECT_DIR$" />
@@ -93,15 +95,13 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="BenchmarkStack_Push in algorithm/container/stack" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go build algorithm/sort" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="algorithm" />
-      <working_directory value="$PROJECT_DIR$/container/stack" />
-      <framework value="gobench" />
+      <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="algorithm/container/stack" />
+      <filePath value="$PROJECT_DIR$/sort/sort.go" />
+      <package value="algorithm/sort" />
       <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^BenchmarkStack_Push$" />
       <method v="2" />
     </configuration>
     <configuration name="TestRing_Do in algorithm/containerring" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -128,11 +128,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build algorithm/sort" />
         <item itemvalue="Go Build.go build algorithm/recursion/maze" />
         <item itemvalue="Go Build.go build algorithm/recursion" />
         <item itemvalue="Go Test.TestRing_Do in algorithm/containerring" />
         <item itemvalue="Go Test.TestStack_Push in algorithm/container/stack" />
-        <item itemvalue="Go Test.BenchmarkStack_Push in algorithm/container/stack" />
       </list>
     </recent_temporary>
   </component>

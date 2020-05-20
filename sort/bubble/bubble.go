@@ -1,17 +1,7 @@
 //总结：
 //1 一共进行总数减1轮比较
 //2 每轮需要两两比较的次数，是总数减1,再去轮数(每轮都把最大的一个数方到后面，下一轮就不用比较后面的大数了)。
-package main
-
-import "fmt"
-
-func main() {
-	s := []int{3, 5, 7, 8, 9, 4, 1, 2, 6, 0}
-	bs := BubbleSort(s)
-	for _, e := range bs {
-		fmt.Println(e)
-	}
-}
+package bubble
 
 //冒泡排序
 func BubbleSort(s []int) []int {
