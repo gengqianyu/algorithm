@@ -4,7 +4,7 @@
 package bubble
 
 //冒泡排序 时间复杂度是O(n²)
-func BubbleSort(s []int) []int {
+func Sort(s []int) []int {
 	//比较轮数 9个数比较到第8轮就剩一个数了，这个数就不用比较了，所以比较轮数也是要比较数减1
 	for i := 0; i < len(s)-1; i++ {
 		f := false
