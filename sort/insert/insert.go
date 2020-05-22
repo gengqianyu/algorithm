@@ -5,9 +5,8 @@
 //将它插入到有序表中的适当位置
 package insert
 
-import "log"
-
 //{3, 0, 7, 8, 9, 4, 1, 2, 6, 5},
+//效率不如下面的优化版本，而且还占内存
 func Sort(s []int) []int {
 	//初始化有序列表
 	var p []int
@@ -36,8 +35,7 @@ func Sort(s []int) []int {
 		//注意：保存后部剩余元素，必须新建一个临时切片, b=p[t-1:]不行，因为b和p公用底层数组会发生错误
 		b := append([]int{}, p[t-1:]...)
 		p = append(append(p[:t-1], e), b...)
-		log.Println(p)
-
+		//log.Println(p)
 	}
 
 	return p

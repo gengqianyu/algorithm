@@ -51,6 +51,19 @@ func BenchmarkSort(b *testing.B) {
 	}
 	b.ResetTimer()
 	for j := 0; j < b.N; j++ {
+		Sort(s)
+	}
+}
+
+func BenchmarkSort2(b *testing.B) {
+	s := make([]int, 8000)
+	for i := 0; i < 8000; i++ {
+		rand.Seed(time.Now().UnixNano())
+		r := rand.Intn(len(s))
+		s[i] = r
+	}
+	b.ResetTimer()
+	for j := 0; j < b.N; j++ {
 		Sort2(s)
 	}
 }
