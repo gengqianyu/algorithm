@@ -9,7 +9,7 @@
 
 package pick
 
-//选择排序
+//选择排序 时间复杂度O(n²)
 func Sort(s []int) []int {
 	//比较轮数 n个数要比较n-1次
 	for i := 0; i < len(s)-1; i++ {
@@ -17,7 +17,7 @@ func Sort(s []int) []int {
 		t := i
 		//假如第一个数最小
 		m := s[i]
-		//循环查找n个数中最小的
+		//循环查找n个数中最小数
 		for j := i + 1; j < len(s); j++ {
 			if m > s[j] {
 				m = s[j]
