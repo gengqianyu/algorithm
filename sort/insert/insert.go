@@ -7,6 +7,7 @@ package insert
 
 import "log"
 
+//{3, 0, 7, 8, 9, 4, 1, 2, 6, 5},
 func Sort(s []int) []int {
 	//初始化有序列表
 	var p []int
@@ -22,7 +23,7 @@ func Sort(s []int) []int {
 		//找插入位置
 		for i := 0; i < len(p); i++ {
 			//找到插入位置就跳出去插入,因为t是插入位置所以是索引+1
-			if e < p[i] {
+			if e <= p[i] {
 				t = i + 1
 				break
 			}
@@ -40,4 +41,34 @@ func Sort(s []int) []int {
 	}
 
 	return p
+}
+
+//插入排序简化版本
+//时间复杂度O(n²)
+//D:\go\algorithm\sort\insert>go test --bench=".*" --benchmem -v
+//goos: windows
+//goarch: amd64
+//pkg: algorithm/sort/insert
+//BenchmarkSort-8           149996              7228 ns/op               0 B/op          0 al
+//locs/op
+//PASS
+//ok      algorithm/sort/insert   1.679s
+
+//{3, 0, 7, 8, 9, 4, 1, 2, 6, 5},
+func Sort2(s []int) []int {
+	//一共需要比较len(s)-1次
+	for i := 1; i < len(s); i++ {
+
+		t := s[i]  //定义待插入的数 从索引为1的第二个数
+		o := i - 1 //定义要插入的位置  无条件默认插入位置为索引为0的第一个位置
+
+		//给t找到一个要插入的位置
+		for o >= 0 && t < s[o] {
+			s[o+1] = s[o]
+			o--
+		}
+		//因为for循环中最后o--是希望在o的前一个位置插入，如果条件不成立，是要插在o这个位置的所以得加回来
+		s[o+1] = t
+	}
+	return s
 }
