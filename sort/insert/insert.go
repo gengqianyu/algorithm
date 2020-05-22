@@ -41,7 +41,7 @@ func Sort(s []int) []int {
 	return p
 }
 
-//插入排序简化版本
+//利用一个slice插入排序简化版本
 //时间复杂度O(n²)
 //D:\go\algorithm\sort\insert>go test --bench=".*" --benchmem -v
 //goos: windows
