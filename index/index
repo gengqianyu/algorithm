@@ -106,3 +106,16 @@ select phone from user_innodb where name="mac" 能用到覆盖索引吗？
 explain 结果中Extra 出现了using index的时候就表示用到了覆盖索引。
 select phone from user_innodb where phone="131xx" 按照定义它用不到索引，
 可是explain的结果依然可以用到覆盖索引，这都是优化器搞的鬼。
+
+不要在索引列上使用计算，函数或者表达式，因为经过计算的结果往往是不确定的。
+例如explain select * from `t2` where id+1=4 就不会用到索引。
+字符串不加引号，出现隐式转换。
+例如explain select * from `user` where phone=132 就不会使用到索引,132如果不加引号，就会当成整数处理
+like条件前面带%(最左前缀)
+例如explain select * from user_innodb where name like "wang%" 是可以用到索引的 匹配以wang开始name字段值可以用索引
+例如explain select * from user_innodb where name like "%wang" 是不可以用到索引的 匹配以wang结束name字段值，不可能一个一个字符往后匹配找，这样就没有索引的意义了
+负向查询 NOT LIKE 是不能用到索引的，<>不等于，和NOT IN是可以用到索引的。
+
+索引能不能用到到底是谁决定的呢？优化器。基于成本的优化器，I/O的成本，CPU成本。数据量会影响成本。字段选择度。
+
+
