@@ -19,10 +19,8 @@
 //(3,4步是在程序中没找到时候j=j-1，i=i+1，直至找到为止。找到并交换的时候i， j指针位置不变。另外当i=j这过程一定正好是i+或j-完成的最后令循环结束。）
 package quick
 
-import "log"
-
 func Sort(s []int, l, r int) []int {
-	log.Println(s)
+	//log.Println(s)
 	//中轴值
 	m := s[l]
 	//pivot 选轴 这个中轴可以是任意一个数据，一般用第1个，最后1个，中间一个。
@@ -41,7 +39,7 @@ func Sort(s []int, l, r int) []int {
 			s[p] = s[a]
 			p = a
 		}
-		log.Println(s)
+		//log.Println(s)
 		//从左边这组数据中找到一个比中轴大的数,找到比a[p]大的值才退出, 不然一直找
 		for b <= p && s[b] <= m {
 			b++
@@ -55,8 +53,8 @@ func Sort(s []int, l, r int) []int {
 	}
 	//一轮以后 p的位置移动到哪就赋值，完成一轮 以p为中轴，分为了两组，再非别递归
 	s[p] = m
-	log.Println()
-	log.Println(s)
+	//log.Println()
+	//log.Println(s)
 	if p-l > 1 {
 		Sort(s, l, p-1)
 	}
