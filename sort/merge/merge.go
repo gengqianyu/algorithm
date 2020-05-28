@@ -3,22 +3,23 @@
 package merge
 
 //多路channel 两两合并 如果参数是n个连续一样的值，可以用这种 参数... 的形式，接收到一个切片中
+//merge(mergen(c1,c2,c3,c4),mergen(c5,c6,c7,c8))
+//merge(merge(mergen(c1,c2),mergen(c3,c4)),merge(mergen(c5,c6),mergen(c7,c8)))
+//merge(merge(merge(mergen(c1),mergen(c2)),merge(mergen(c3),mergen(c4))),merge(merge(mergen(c5),mergen(c6)),merge(mergen(c7),mergen(c8))))
+//mergen(c1)=>c1
+//merge(merge(merge(c1,c2),merge(c3,c4)),merge(merge(c5,c6),merge(c7,c8)))
+//merge(c1,c2)=>out1
+//merge(merge(out1,out2),merge(out3,out4))
+//merge(out1,out2)=>out12
+//merge(out12,out34)
+//merge(out12,out34)=>out1234
+//上一层的merge中goroutine 向out发送数据阻塞等待，下一层merge中goroutine in接收数据 ，上层的out就是下层的in
 func MergeN(ins ...<-chan int) <-chan int {
 	if len(ins) == 1 {
 		return ins[0]
 	}
 	m := len(ins) / 2
 	return Merge(MergeN(ins[:m]...), MergeN(ins[m:]...))
-	//merge(mergen(c1,c2,c3,c4),mergen(c5,c6,c7,c8))
-	//merge(merge(mergen(c1,c2),mergen(c3,c4)),merge(mergen(c5,c6),mergen(c7,c8)))
-	//merge(merge(merge(mergen(c1),mergen(c2)),merge(mergen(c3),mergen(c4))),merge(merge(mergen(c5),mergen(c6)),merge(mergen(c7),mergen(c8))))
-	//mergen(c1)=>c1
-	//merge(merge(merge(c1,c2),merge(c3,c4)),merge(merge(c5,c6),merge(c7,c8)))
-	//merge(c1,c2)=>out1
-	//merge(merge(out1,out2),merge(out3,out4))
-	//merge(out1,out2)=>out12
-	//merge(out12,out34)
-	//merge(out12,out34)=>out1234
 }
 
 func Merge(in1, in2 <-chan int) <-chan int {
