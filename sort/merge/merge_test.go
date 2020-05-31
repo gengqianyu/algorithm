@@ -2,7 +2,9 @@ package merge
 
 import (
 	"log"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 func TestSort(t *testing.T) {
@@ -22,5 +24,20 @@ func TestSort(t *testing.T) {
 		if r[i] != i {
 			t.Errorf("expected %d,actual %d", i, r[i])
 		}
+	}
+}
+
+func BenchmarkSort(b *testing.B) {
+	s := make([]int, 8000)
+	//b.Log(len(s))
+	l := len(s)
+	for i := 0; i < l; i++ {
+		rand.Seed(time.Now().UnixNano())
+		r := rand.Intn(l)
+		s[i] = r
+	}
+	b.ResetTimer()
+	for j := 0; j < b.N; j++ {
+		Sort(s)
 	}
 }

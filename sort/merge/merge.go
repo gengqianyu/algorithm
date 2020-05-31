@@ -26,12 +26,14 @@ func Merge(in1, in2 <-chan int) <-chan int {
 	out := make(chan int)
 
 	go func() {
-		//分别从两个channel里接一个数据
+		//使用非阻塞的方式从两个channel里接收数据，
+		// v1：表示接收到的数据，未接收到数据时，v1为通道类型的零值。
+		// ok1：表示是否接收到数据
 		v1, ok1 := <-in1
 		v2, ok2 := <-in2
-		//如果能接到数据就循环
+		//如果能接到数据就执行循环体
 		for ok1 || ok2 {
-			//如果in2中没数据，或者in1中有数据，同时v1<v2 就将V1放入 out
+			//如果从in2没接收到数据，或者从in1接收到数据，从nv1<v2 就将V1放入 out
 			if !ok2 || (ok1 && v1 <= v2) {
 				out <- v1
 				//接下一组数
