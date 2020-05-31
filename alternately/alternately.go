@@ -13,6 +13,8 @@ func main() {
 	w.Add(3)
 	n := 10
 	go func() {
+		defer w.Done()
+		defer close(x)
 		i := 0
 		for {
 			if i == n {
@@ -23,10 +25,10 @@ func main() {
 			y <- "Y"
 			i++
 		}
-		w.Done()
-		//close(x) done了就不用close了
 	}()
-	go func(y chan string) {
+	go func() {
+		defer w.Done()
+		defer close(y)
 		i := 0
 		for {
 			if i == n {
@@ -37,10 +39,10 @@ func main() {
 			z <- "Z"
 			i++
 		}
-		w.Done()
-
-	}(y)
+	}()
 	go func() {
+		defer w.Done()
+		defer close(z)
 		i := 0
 		for {
 			if i == n {
@@ -54,7 +56,6 @@ func main() {
 			}
 			i++
 		}
-		w.Done()
 	}()
 	x <- "X"
 	w.Wait()
