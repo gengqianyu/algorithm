@@ -7,9 +7,9 @@ import (
 
 func main() {
 	w := sync.WaitGroup{}
-	x := make(chan string)
-	y := make(chan string)
-	z := make(chan string)
+	x := make(chan rune)
+	y := make(chan rune)
+	z := make(chan rune)
 	w.Add(3)
 	n := 10
 	go func() {
@@ -21,8 +21,8 @@ func main() {
 				break
 			}
 			e := <-x
-			fmt.Println(e)
-			y <- "Y"
+			fmt.Println(string(e))
+			y <- 'Y'
 			i++
 		}
 	}()
@@ -35,8 +35,8 @@ func main() {
 				break
 			}
 			e := <-y
-			fmt.Println(e)
-			z <- "Z"
+			fmt.Println(string(e))
+			z <- 'Z'
 			i++
 		}
 	}()
@@ -49,14 +49,15 @@ func main() {
 				break
 			}
 			e := <-z
-			fmt.Println(e)
+			fmt.Println(string(e))
 			//预防最后一次发送
-			if i < n-1 {
-				x <- "X"
+			if i == n-1 {
+				break
 			}
+			x <- 'X'
 			i++
 		}
 	}()
-	x <- "X"
+	x <- 'X'
 	w.Wait()
 }
