@@ -20,6 +20,6 @@ func Search(s []int, l, r, v int) int {
 	if s[m] < v {
 		return Search(s, m+1, r, v)
 	}
-
+	//默认s[m]=v
 	return m
 }
