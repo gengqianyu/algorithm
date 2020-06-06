@@ -15,6 +15,7 @@ package merge
 //merge(out12,out34)=>out1234
 //上一层的merge中goroutine 向out发送数据阻塞等待，下一层merge中goroutine in接收数据 ，上层的out就是下层的in
 func MergeN(ins ...<-chan int) <-chan int {
+
 	if len(ins) == 1 {
 		return ins[0]
 	}
