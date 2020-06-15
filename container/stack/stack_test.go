@@ -31,7 +31,7 @@ func BenchmarkStack_Push(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		rand.Seed(time.Now().UnixNano())
 		r := rand.Intn(l)
-		s.Push(&Element{value: answer[r]})
+		s.Push(NewElement(answer[r]))
 	}
 }
 
@@ -56,7 +56,7 @@ func BenchmarkStack_Pop(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		rand.Seed(time.Now().UnixNano())
 		r := rand.Intn(l)
-		s.Push(&Element{value: answer[r]})
+		s.Push(NewElement(answer[r]))
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -67,7 +67,7 @@ func BenchmarkStack_Pop(b *testing.B) {
 func TestStack_Push(t *testing.T) {
 	s := New()
 	for _, e := range answer {
-		s.Push(&Element{value: e})
+		s.Push(NewElement(e))
 	}
 	s.Pop()
 	if (len(answer) - 1) != s.Len() {

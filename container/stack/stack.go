@@ -17,6 +17,12 @@ type Element struct {
 	prev  *Element
 }
 
+func NewElement(v interface{}) *Element {
+	return &Element{
+		value: v,
+	}
+}
+
 // Prev get the prev element
 func (e *Element) Prev() *Element {
 	if p := e.prev; p != nil {
