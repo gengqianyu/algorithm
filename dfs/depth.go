@@ -5,7 +5,7 @@ package dfs
 
 import (
 	"algorithm/container/stack"
-	"log"
+	"errors"
 )
 
 // defined point struct
@@ -61,7 +61,7 @@ func DepthWalk(m [][]int, s point, e point) ([][]int, error) {
 		//type assertion
 		cur, ok := element.Value().(point)
 		if !ok {
-			log.Fatal(cur)
+			return nil, errors.New("type error")
 		}
 		//到达终点break
 		if cur == e {
