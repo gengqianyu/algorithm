@@ -43,7 +43,7 @@ var dirs = [4]point{
 	{0, 1},
 }
 
-// 深度优先算法
+// 深度优先算法 从最后一个节点找出路，找不到才找，就倒数第二个。
 // m 地图 s开始点 e终点
 func DepthWalk(m [][]int, s point, e point) ([][]int, error) {
 	//记录走过的位置
