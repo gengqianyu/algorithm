@@ -160,7 +160,8 @@ func (t *Table) reHash() {
 	// 将旧hashtable 元素导入到新hashtable中
 	for i := oldCapacity - 1; i > 0; i-- {
 		for e := oldTable[i]; e != nil; e = e.next {
-			//单链表节点赋给临时变量
+			//单链表当前节点赋给临时变量，
+			//如果直接操作e，下面是要修改e.next的指向的，那么遍历就会出现问题
 			temp := e
 			// 重新计算
 			index := int(e.hash&0x7FFFFFFF) % newCapacity
