@@ -18,29 +18,41 @@ func (n *Node) Right() *Node {
 }
 
 func (n *Node) Traverse(order uint8, c container) {
-	*c = append(*c, n.value)
+	if n == nil {
+		return
+	}
+	if order == PRE {
+		*c = append(*c, n.value)
+	}
 	n.left.Traverse(order, c)
+	if order == IN {
+		*c = append(*c, n.value)
+	}
 	n.right.Traverse(order, c)
+	if order == POST {
+		*c = append(*c, n.value)
+	}
 }
 
+// traverse binary tree with closure func
 func (n *Node) TraverseByClosure(order uint8, f NodeFunc) {
 	if n == nil {
 		return
 	}
 
-	if order == 0 {
+	if order == PRE {
 		f(n)
 	}
 
 	n.left.TraverseByClosure(order, f)
 
-	if order == 1 {
+	if order == IN {
 		f(n)
 	}
 
 	n.right.TraverseByClosure(order, f)
 
-	if order == 2 {
+	if order == POST {
 		f(n)
 	}
 
@@ -85,9 +97,9 @@ func (b *Btree) Root() *Node {
 
 // defied enum of traverse order
 const (
-	PRE = iota
-	POST
-	IN
+	PRE  = iota //前序
+	POST        //后序
+	IN          // 中序
 )
 
 // traverse binary tree

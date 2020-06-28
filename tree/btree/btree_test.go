@@ -12,6 +12,19 @@ type hero struct {
 
 var marshalTests []hero
 
+//D:\go\algorithm\tree\btree>go test -v(详情)
+//=== RUN   TestBtree_Traverse
+//{1 宋江}
+//{2 吴用}
+//{4 林冲}
+//{5 武松}
+//{3 公孙胜}
+//{6 卢俊义}
+//{7 鲁智深}
+//--- PASS: TestBtree_Traverse (0.00s)
+//PASS
+//ok      algorithm/tree/btree    0.187s
+
 func TestBtree_Traverse(t *testing.T) {
 	btree := New()
 	root := btree.Root()
