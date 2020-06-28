@@ -1,5 +1,10 @@
 package btree
 
+import (
+	"reflect"
+)
+
+// tree node
 type Node struct {
 	value       interface{}
 	left, right *Node
@@ -60,6 +65,7 @@ func (n *Node) TraverseByClosure(order uint8, f NodeFunc) {
 
 type NodeFunc func(node *Node)
 
+// binary tree
 type Btree struct {
 	root *Node // root node
 	len  int   //number of nodes
@@ -117,4 +123,16 @@ func (b *Btree) Traverse(order uint8) <-chan *Node {
 	return out
 }
 
+func (b *Btree) SelectById(order uint8, id uint8, f TypeAssertionFunc) *Node {
+	out := b.Traverse(order)
+	for node := range out {
+		if f(reflect.ValueOf(node.Value()), id) {
+			return node
+		}
+	}
+	return nil
+}
+
 type container *[]interface{}
+
+type TypeAssertionFunc func(v reflect.Value, id uint8) bool

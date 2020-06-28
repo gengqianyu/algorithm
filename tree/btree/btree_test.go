@@ -2,6 +2,7 @@ package btree
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -36,7 +37,7 @@ func TestBtree_Traverse(t *testing.T) {
 	root.left.left = &Node{value: hero{4, "林冲"}}
 	root.left.right = &Node{value: hero{5, "武松"}}
 
-	out := btree.Traverse(PRE)
+	out := btree.Traverse(POST)
 
 	for node := range out {
 		if v, ok := node.Value().(hero); ok {
@@ -44,4 +45,22 @@ func TestBtree_Traverse(t *testing.T) {
 		}
 
 	}
+	fmt.Println("----------------------------------------")
+
+	node := btree.SelectById(POST, 7, func(rv reflect.Value, id uint8) bool {
+		v, ok := rv.Interface().(hero)
+		if !ok {
+			return false
+		}
+		if v.id == id {
+			return true
+		}
+		return false
+	})
+
+	h := node.value.(hero)
+	if h.name != "鲁智深" {
+		t.Errorf("expected:%s,actual:%s", "鲁智深", h.name)
+	}
+
 }
