@@ -8,6 +8,7 @@ func Search(s []int, l, r, v int) int {
 	}
 	// 自适应算法定位m
 	m := l + (v-s[l])/(s[r]-s[l])*(r-l)
+
 	if v > s[m] { //向右递归
 		return Search(s, m+1, r, v)
 	}
