@@ -98,8 +98,8 @@ func (b *Btree) Root() *Node {
 // defied enum of traverse order
 const (
 	PRE  = iota //前序
+	IN          //中序
 	POST        //后序
-	IN          // 中序
 )
 
 // traverse binary tree
