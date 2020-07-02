@@ -47,8 +47,8 @@ func TestBtree_Traverse(t *testing.T) {
 	}
 	fmt.Println("----------------------------------------")
 
-	node := btree.SelectById(POST, 7, func(rv reflect.Value, id uint8) bool {
-		v, ok := rv.Interface().(hero)
+	node := btree.SelectById(POST, 7, func(value reflect.Value, id uint8) bool {
+		v, ok := value.Interface().(hero)
 		if !ok {
 			return false
 		}

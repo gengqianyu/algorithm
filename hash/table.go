@@ -46,6 +46,8 @@ func (t *Table) Put(key string, value interface{}) interface{} {
 	hashCode := hash.Sum32()
 	index := int(hashCode&0x7FFFFFFF) % len(t.table)
 
+	//index = int((hashCode>>16)^(hashCode<<16)) & len(t.table)
+
 	// 若Hashtable中已存在键为key的键值对，则用新的value替换旧的value
 	for e := t.table[index]; e != nil; e = e.next {
 		if e.hash == hashCode && reflect.DeepEqual(e.key, key) {
@@ -315,9 +317,8 @@ func (i *Enumerator) Next() interface{} {
 // 首先，从后向前的遍历table切片。table切片的每个节点都是一个单向链表(Entry)。
 // 然后，依次向后遍历单向链表Entry。
 func (i *Enumerator) nextElement() interface{} {
-	et := i.entry
-	index := i.index
-	table := i.table
+	//对于一个频繁被操作的对象，先要进行值传递，以免后序操作影响对象本身
+	et, index, table := i.entry, i.index, i.table
 
 	for et == nil && index > 0 {
 		et = table[index]
@@ -325,12 +326,13 @@ func (i *Enumerator) nextElement() interface{} {
 	i.entry = et
 	i.index = index
 
-	if et != nil {
-		e := i.entry
-		i.entry = e.next
-		return e.key
+	if et == nil {
+		return nil
 	}
-	return nil
+	e := i.entry
+	i.entry = e.next
+	return e.key
+
 }
 
 func (i *Enumerator) Current() interface{} {
