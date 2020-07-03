@@ -125,6 +125,7 @@ func (b *Btree) Traverse(order uint8) <-chan *Node {
 	return out
 }
 
+//使用reflect 反射
 func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (*Node, error) {
 	out := b.Traverse(order)
 
@@ -148,12 +149,12 @@ func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (*
 		case reflect.Int:
 			//把比较条件都转成int64的再进行比较
 			if reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName).Int(), reflect.ValueOf(fieldValue).Int()) {
-				//fmt.Println("deep ok")
+				fmt.Println("deep ok")
 				return node, nil
 			}
 		case reflect.String:
 			if reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName).String(), fieldValue) {
-				//fmt.Println("deep ok")
+				fmt.Println("deep ok")
 				return node, nil
 			}
 		}
@@ -161,21 +162,22 @@ func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (*
 	return nil, errors.New("the corresponding value was not found")
 }
 
+//未使用反射
 func (b *Btree) SelectById(id interface{}, f TypeAssertionFunc, order uint8) (*Node, error) {
 	out := b.Traverse(order)
 
 	for node := range out {
-		if f(reflect.ValueOf(node.Value()), id) {
+		if f(node.Value(), id) {
 			fmt.Println("closure ok")
 			return node, nil
 		}
 	}
-	return nil, errors.New("the corresponding value was not found")
+	return nil, errors.New("the field value was not found")
 }
 
 type container *[]interface{}
 
-type TypeAssertionFunc func(v reflect.Value, fieldValue interface{}) bool
+type TypeAssertionFunc func(findValue interface{}, fieldValue interface{}) bool
 
 func (b *Btree) checkField(rt reflect.Type, fieldName string) bool {
 	if _, ok := rt.FieldByName(fieldName); ok {

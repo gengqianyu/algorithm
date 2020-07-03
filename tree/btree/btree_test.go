@@ -2,7 +2,6 @@ package btree
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 )
 
@@ -61,12 +60,12 @@ func TestBtree_Traverse(t *testing.T) {
 	}
 
 	id := 5
-	node, err = btree.SelectById(id, func(value reflect.Value, id interface{}) bool {
-		v, ok := value.Interface().(hero)
+	node, err = btree.SelectById(id, func(value interface{}, id interface{}) bool {
+		v, ok := value.(hero)
 		if !ok {
 			return false
 		}
-		if reflect.DeepEqual(v.id, id) {
+		if v.id == id {
 			return true
 		}
 		return false
