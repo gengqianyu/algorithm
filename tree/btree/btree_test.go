@@ -7,7 +7,7 @@ import (
 )
 
 type hero struct {
-	id   uint8
+	id   int
 	name string
 }
 
@@ -47,20 +47,38 @@ func TestBtree_Traverse(t *testing.T) {
 	}
 	fmt.Println("----------------------------------------")
 
-	node := btree.SelectById(POST, 7, func(value reflect.Value, id uint8) bool {
-		v, ok := value.Interface().(hero)
-		if !ok {
-			return false
-		}
-		if v.id == id {
-			return true
-		}
-		return false
-	})
+	fieldName := "id"
+	fieldValue := 7
+	node, err := btree.Select(fieldName, fieldValue, POST)
+
+	if err != nil {
+		t.Error(err.Error())
+	}
 
 	h := node.value.(hero)
 	if h.name != "鲁智深" {
 		t.Errorf("expected:%s,actual:%s", "鲁智深", h.name)
+	}
+
+	id := 5
+	node, err = btree.SelectById(id, func(value reflect.Value, id interface{}) bool {
+		v, ok := value.Interface().(hero)
+		if !ok {
+			return false
+		}
+		if reflect.DeepEqual(v.id, id) {
+			return true
+		}
+		return false
+	}, POST)
+
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	h = node.value.(hero)
+	if h.name != "武松" {
+		t.Errorf("expected:%s,actual:%s", "武松", h.name)
 	}
 
 }

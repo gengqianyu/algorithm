@@ -1,6 +1,8 @@
 package btree
 
 import (
+	"errors"
+	"fmt"
 	"reflect"
 )
 
@@ -123,16 +125,61 @@ func (b *Btree) Traverse(order uint8) <-chan *Node {
 	return out
 }
 
-func (b *Btree) SelectById(order uint8, id uint8, f TypeAssertionFunc) *Node {
+func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (*Node, error) {
 	out := b.Traverse(order)
+
 	for node := range out {
-		if f(reflect.ValueOf(node.Value()), id) {
-			return node
+		reflectNodeValue := reflect.ValueOf(node.Value())
+		reflectNodeType := reflect.TypeOf(node.Value())
+		//structField, _ := reflectNodeType.FieldByName("id")
+		//fmt.Printf("%#v,%#v \r\n", structField.Name, structField)
+		//fmt.Printf("%T,%#v \r\n", reflectNodeType.String(), reflectNodeType.String())
+		//fmt.Printf("%T,%#v \r\n", reflectNodeType.Name(), reflectNodeType.Name())
+
+		if !b.checkField(reflectNodeType, fieldName) {
+			return nil, errors.New("invalid field:" + fieldName)
+		}
+		//fmt.Printf("%T,%v \r\n", reflectNodeValue.FieldByName(fieldName).Int(), reflectNodeValue.FieldByName(fieldName).Int())
+		//fmt.Printf("%T,%#v \r\n", fieldValue, fieldValue)
+		//fmt.Println(reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName), fieldValue))
+
+		switch reflectNodeValue.FieldByName(fieldName).Kind() {
+
+		case reflect.Int:
+			//把比较条件都转成int64的再进行比较
+			if reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName).Int(), reflect.ValueOf(fieldValue).Int()) {
+				//fmt.Println("deep ok")
+				return node, nil
+			}
+		case reflect.String:
+			if reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName).String(), fieldValue) {
+				//fmt.Println("deep ok")
+				return node, nil
+			}
 		}
 	}
-	return nil
+	return nil, errors.New("the corresponding value was not found")
+}
+
+func (b *Btree) SelectById(id interface{}, f TypeAssertionFunc, order uint8) (*Node, error) {
+	out := b.Traverse(order)
+
+	for node := range out {
+		if f(reflect.ValueOf(node.Value()), id) {
+			fmt.Println("closure ok")
+			return node, nil
+		}
+	}
+	return nil, errors.New("the corresponding value was not found")
 }
 
 type container *[]interface{}
 
-type TypeAssertionFunc func(v reflect.Value, id uint8) bool
+type TypeAssertionFunc func(v reflect.Value, fieldValue interface{}) bool
+
+func (b *Btree) checkField(rt reflect.Type, fieldName string) bool {
+	if _, ok := rt.FieldByName(fieldName); ok {
+		return true
+	}
+	return false
+}
