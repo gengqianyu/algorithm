@@ -85,4 +85,16 @@ func TestBtree_Traverse(t *testing.T) {
 		hero := value.(hero)
 		fmt.Printf("%T,%v \r\n", hero, hero.name)
 	}
+	fmt.Println("delete 鲁智深：")
+	b, _ := btree.Delete(fieldName, fieldValue)
+	if b {
+		out := btree.Traverse(POST)
+
+		for node := range out {
+			if v, ok := node.Value().(hero); ok {
+				fmt.Println(v.name)
+			}
+		}
+	}
+
 }
