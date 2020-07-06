@@ -48,19 +48,19 @@ func TestBtree_Traverse(t *testing.T) {
 
 	fieldName := "id"
 	fieldValue := 7
-	node, err := btree.Select(fieldName, fieldValue, POST)
+	value, err := btree.Select(fieldName, fieldValue, POST)
 
 	if err != nil {
 		t.Error(err.Error())
 	}
 
-	h := node.value.(hero)
+	h := value.(hero)
 	if h.name != "鲁智深" {
 		t.Errorf("expected:%s,actual:%s", "鲁智深", h.name)
 	}
 
 	id := 5
-	node, err = btree.SelectById(id, func(value interface{}, id interface{}) bool {
+	value, err = btree.SelectById(id, func(value interface{}, id interface{}) bool {
 		v, ok := value.(hero)
 		if !ok {
 			return false
@@ -75,9 +75,14 @@ func TestBtree_Traverse(t *testing.T) {
 		t.Error(err.Error())
 	}
 
-	h = node.value.(hero)
+	h = value.(hero)
 	if h.name != "武松" {
 		t.Errorf("expected:%s,actual:%s", "武松", h.name)
 	}
+	fmt.Println("---------------------------------------------------")
 
+	for _, value := range btree.GetAll() {
+		hero := value.(hero)
+		fmt.Printf("%T,%v \r\n", hero, hero.name)
+	}
 }

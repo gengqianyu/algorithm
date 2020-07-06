@@ -24,18 +24,20 @@ func (n *Node) Right() *Node {
 	return n.right
 }
 
-func (n *Node) Traverse(order uint8, c container) {
+func (n *Node) Traverse(l int, c *[]interface{}, order uint8) {
+
 	if n == nil {
 		return
 	}
+
 	if order == PRE {
 		*c = append(*c, n.value)
 	}
-	n.left.Traverse(order, c)
+	n.left.Traverse(l, c, order)
 	if order == IN {
 		*c = append(*c, n.value)
 	}
-	n.right.Traverse(order, c)
+	n.right.Traverse(l, c, order)
 	if order == POST {
 		*c = append(*c, n.value)
 	}
@@ -80,7 +82,7 @@ func New() *Btree {
 
 func (b *Btree) init() *Btree {
 	b.root = new(Node)
-	b.len = 0
+	b.len = 7
 	b.high = 0
 	return b
 }
@@ -126,7 +128,7 @@ func (b *Btree) Traverse(order uint8) <-chan *Node {
 }
 
 //使用reflect 反射
-func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (*Node, error) {
+func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (interface{}, error) {
 	out := b.Traverse(order)
 
 	for node := range out {
@@ -150,32 +152,30 @@ func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (*
 			//把比较条件都转成int64的再进行比较
 			if reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName).Int(), reflect.ValueOf(fieldValue).Int()) {
 				fmt.Println("deep ok")
-				return node, nil
+				return node.Value(), nil
 			}
 		case reflect.String:
 			if reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName).String(), fieldValue) {
 				fmt.Println("deep ok")
-				return node, nil
+				return node.Value(), nil
 			}
 		}
 	}
 	return nil, errors.New("the corresponding value was not found")
 }
 
-//未使用反射
-func (b *Btree) SelectById(id interface{}, f TypeAssertionFunc, order uint8) (*Node, error) {
+//未使用反射 使用函数式
+func (b *Btree) SelectById(id interface{}, f TypeAssertionFunc, order uint8) (interface{}, error) {
 	out := b.Traverse(order)
 
 	for node := range out {
 		if f(node.Value(), id) {
 			fmt.Println("closure ok")
-			return node, nil
+			return node.Value(), nil
 		}
 	}
 	return nil, errors.New("the field value was not found")
 }
-
-type container *[]interface{}
 
 type TypeAssertionFunc func(findValue interface{}, fieldValue interface{}) bool
 
@@ -184,4 +184,10 @@ func (b *Btree) checkField(rt reflect.Type, fieldName string) bool {
 		return true
 	}
 	return false
+}
+
+func (b *Btree) GetAll() []interface{} {
+	c := new([]interface{})
+	b.root.Traverse(b.len, c, 0)
+	return *c
 }
