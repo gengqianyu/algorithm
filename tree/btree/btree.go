@@ -67,6 +67,7 @@ func (n *Node) TraverseByClosure(order uint8, f NodeFunc) {
 
 }
 
+// delete node
 func (n *Node) Delete(fieldName string, fieldValue interface{}, isDelete *bool) {
 	if n == nil {
 		return
@@ -171,17 +172,10 @@ func (b *Btree) Select(fieldName string, fieldValue interface{}, order uint8) (i
 	for node := range out {
 		reflectValue := reflect.ValueOf(node.Value())
 		reflectType := reflect.TypeOf(node.Value())
-		//structField, _ := reflectNodeType.FieldByName("id")
-		//fmt.Printf("%#v,%#v \r\n", structField.Name, structField)
-		//fmt.Printf("%T,%#v \r\n", reflectNodeType.String(), reflectNodeType.String())
-		//fmt.Printf("%T,%#v \r\n", reflectNodeType.Name(), reflectNodeType.Name())
 
 		if !b.checkField(reflectType, fieldName) {
 			return nil, errors.New("invalid field:" + fieldName)
 		}
-		//fmt.Printf("%T,%v \r\n", reflectNodeValue.FieldByName(fieldName).Int(), reflectNodeValue.FieldByName(fieldName).Int())
-		//fmt.Printf("%T,%#v \r\n", fieldValue, fieldValue)
-		//fmt.Println(reflect.DeepEqual(reflectNodeValue.FieldByName(fieldName), fieldValue))
 
 		switch reflectValue.FieldByName(fieldName).Kind() {
 
@@ -238,8 +232,8 @@ func (b *Btree) Delete(fieldName string, fieldValue interface{}) (bool, error) {
 	}
 	//判断是否删除的是根节点
 	reflectValue := reflect.ValueOf(b.Root().Value())
-	switch reflectValue.FieldByName(fieldName).Kind() {
 
+	switch reflectValue.FieldByName(fieldName).Kind() {
 	case reflect.Int:
 		//把比较条件都转成int64的再进行比较
 		if reflect.DeepEqual(reflectValue.FieldByName(fieldName).Int(), reflect.ValueOf(fieldValue).Int()) {
@@ -260,6 +254,7 @@ func (b *Btree) Delete(fieldName string, fieldValue interface{}) (bool, error) {
 	b.Root().Delete(fieldName, fieldValue, &isDelete)
 
 	if isDelete {
+		b.len--
 		return true, nil
 	} else {
 		return false, errors.New("no record found")
