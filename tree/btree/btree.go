@@ -1,3 +1,4 @@
+//binary tree
 package btree
 
 import (
