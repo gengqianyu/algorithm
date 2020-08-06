@@ -119,6 +119,14 @@ func New(n *Node) *BSTree {
 	return new(BSTree).init(n)
 }
 
+func (b *BSTree) Root() *Node {
+	return b.root
+}
+
+func (b *BSTree) Number() int {
+	return b.number
+}
+
 //add a node to BSTree
 func (b *BSTree) Add(n *Node) {
 	if b.root == nil {
@@ -178,9 +186,6 @@ func (b *BSTree) Delete(v int) bool {
 	}
 	//查找要删除节点的父节点
 	p := b.root.Parent(v)
-	if p == nil {
-		return false
-	}
 
 	//如果n为叶子节点，删除叶子节点
 	if n.Left() == nil && n.Right() == nil {
@@ -200,6 +205,11 @@ func (b *BSTree) Delete(v int) bool {
 
 	//如果删除的节点n只有一颗左子树
 	if n.Left() != nil && n.Right() == nil {
+		if p == nil {
+			b.root = n.Left()
+			b.number--
+			return true
+		}
 		//判断是父节点的左节点还是右节点
 		if p.Left() != nil && p.Left().Value() == n.Value() {
 			p.SetLeft(n.Left())
@@ -214,7 +224,11 @@ func (b *BSTree) Delete(v int) bool {
 	}
 	//如果删除的节点n只有一颗右子树
 	if (n.Right() != nil) && (n.Left() == nil) {
-
+		if p == nil {
+			b.root = n.Left()
+			b.number--
+			return true
+		}
 		//n是父节点的左子节点
 		if p.Left() != nil && p.Left().Value() == n.Value() {
 			p.SetLeft(n.Right())
