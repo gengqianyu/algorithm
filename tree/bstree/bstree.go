@@ -210,12 +210,13 @@ func (b *BSTree) Delete(v int) bool {
 			b.number--
 			return true
 		}
-		//判断是父节点的左节点还是右节点
+		//n是父节p点的左子节点
 		if p.Left() != nil && p.Left().Value() == n.Value() {
 			p.SetLeft(n.Left())
 			b.number--
 			return true
 		}
+		//n是父节p点的右子节点
 		if p.Right() != nil && p.Right().Value() == n.Value() {
 			p.SetRight(n.Left())
 			b.number--
@@ -225,7 +226,7 @@ func (b *BSTree) Delete(v int) bool {
 	//如果删除的节点n只有一颗右子树
 	if (n.Right() != nil) && (n.Left() == nil) {
 		if p == nil {
-			b.root = n.Left()
+			b.root = n.Right()
 			b.number--
 			return true
 		}

@@ -9,7 +9,7 @@ func Search(s []int, l, r, v int) int {
 	}
 
 	// defined mid
-	m := (l + r) / 2
+	m := (l + r) >> 1
 	//如果中间值比v大就向左递归
 	if s[m] > v {
 		//注意这里的m，比完以后，下一轮m就不用比了，
