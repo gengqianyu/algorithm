@@ -103,7 +103,7 @@ func (n *Node) Parent(v int) *Node {
 	return nil
 }
 
-// defined BD+STree struct
+// defined BSTree struct
 type BSTree struct {
 	root   *Node
 	number int
