@@ -9,7 +9,7 @@ import (
 
 func main() {
 	//初始化队列
-	q := queue.NewQueue(100)
+	q := queue.New(100)
 	//创建10个goroutine send element to queue
 	for i := 0; i < 10; i++ {
 		go producer(i, q)
@@ -49,12 +49,12 @@ func consumer(q *queue.Queue) <-chan interface{} {
 
 		for {
 			// 弹出一个element
-			ele, err := q.Pop()
+			ele, ok := q.Pop()
 			// 日志
 			log.Println("count:", q.GetCount())
 
-			if err != nil {
-				log.Println(err.Error())
+			if !ok {
+				log.Println("队列为空")
 				runtime.Gosched()
 				continue
 			}
