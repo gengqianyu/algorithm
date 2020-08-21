@@ -23,3 +23,27 @@ func Search(s []int, l, r, v int) int {
 	//默认s[m]=v
 	return m
 }
+
+func Search2(s []int, v int) int {
+	l, r := 0, len(s)-1
+	//只要l小于r就可以一直找
+	for l <= r {
+		//找到中间索引
+		m := (l + r) >> 1
+
+		//比较
+		//向左边查找
+		if s[m] > v {
+			r = m - 1
+			continue
+		}
+		//向右边查找
+		if s[m] < v {
+			l = m + 1
+			continue
+		}
+
+		return m
+	}
+	return -1
+}
