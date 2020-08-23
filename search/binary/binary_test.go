@@ -21,7 +21,6 @@ func TestSearch(t *testing.T) {
 
 	//非递归法
 	i := Search2(r, 31)
-
 	if i == -1 || i != 21 {
 		t.Errorf("expected:%d;actual:%d", 21, i)
 	} else {
