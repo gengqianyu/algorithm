@@ -58,3 +58,60 @@ func IndexStrings(s, substr string) int {
 	}
 	return -1
 }
+
+//kmp搜索算法
+func KMP(s, substr string) int {
+	//获取子串的部分匹配表
+	p := PartialMach(substr)
+
+	ss := []rune(s)
+	chars := []rune(substr)
+
+	for i, j := 0, 0; i < len(ss); i++ {
+		//匹配不到的情况,就一直调整j的索引位置
+		//kmp核心算法
+		for j > 0 && ss[i] != chars[j] {
+			j = p[j-1]
+		}
+		//匹配到，接着匹配下一个字符
+		if ss[i] == chars[j] {
+			j++
+		}
+
+		//找到返回索引
+		if j == len(chars) {
+			return i - j
+		}
+	}
+	return -1
+}
+
+//获取字符串的部分匹配表 前缀和后缀 共同元素的个数
+func PartialMach(s string) []int {
+	//将字符串转化为切片
+	ss := []rune(s)
+	//创建一个p切片 保存字符串的部分匹配值
+	p := make([]int, len(s))
+	//如果只有一个字符，这个字符的部分匹配值就是0
+	p[0] = 0
+	//从第二个字符开始 i=1 i为字符索引
+	//j代表字符的部分匹配值
+	for i, j := 1, 0; i < len(ss); i++ {
+
+		//当ss[i] != ss[j]，需要从p[j-1]获取新的匹配值
+		//字符匹配值大于0，
+		for j > 0 && ss[i] != ss[j] {
+			//kmp的核心，匹配值计算公式
+			j = p[j-1]
+		}
+
+		//满足条件部分匹配值加1
+		if ss[i] == ss[j] {
+			j++
+		}
+
+		p[i] = j
+	}
+
+	return p
+}

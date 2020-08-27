@@ -60,3 +60,37 @@ func TestIndexStrings(t *testing.T) {
 		})
 	}
 }
+
+func TestKMP(t *testing.T) {
+	marshalTests := []struct {
+		name   string
+		new    func() StringIndexFunc
+		str    string
+		substr string
+		index  int
+	}{
+		{
+			"stringsIndex",
+			func() StringIndexFunc { return KMP },
+			"gengqianyuzhangyanlin",
+			"zhangyanlin",
+			10,
+		},
+		{
+			"stringsIndex",
+			func() StringIndexFunc { return KMP },
+			"白化肥挥发花化肥黑化肥挥发白化肥",
+			"花化肥黑",
+			5,
+		},
+	}
+	for _, tt := range marshalTests {
+		t.Run(tt.name, func(t *testing.T) {
+			f := tt.new
+			i := f()(tt.str, tt.substr)
+			if i != tt.index {
+				t.Errorf("expected:%d,actual:%d", tt.index, i)
+			}
+		})
+	}
+}
