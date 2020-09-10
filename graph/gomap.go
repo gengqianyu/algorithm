@@ -5,16 +5,16 @@ import (
 )
 
 type GoMap struct {
-	vertices []string //顶点
-	edges    [][]int  //边 存储图对应的邻接矩阵
-	number   int      //边的数量
-	marks    []bool   //标记顶点是否已遍历
+	vertices []string    //顶点
+	edges    [][]float64 //边 存储图对应的邻接矩阵
+	number   int         //边的数量
+	marks    []bool      //标记顶点是否已遍历
 }
 
 func (m *GoMap) init(n int) *GoMap {
-	m.edges = make([][]int, n)
+	m.edges = make([][]float64, n)
 	for i, _ := range m.edges {
-		m.edges[i] = make([]int, n)
+		m.edges[i] = make([]float64, n)
 	}
 	m.marks = make([]bool, n)
 	return m
@@ -33,15 +33,24 @@ func (m *GoMap) Add(v ...string) {
 	m.vertices = append(m.vertices, v...)
 }
 
-//a，b是矩阵索引 v为边的权值
-func (m *GoMap) SetEdge(x, y, v int) {
+//x，y是矩阵索引 v为边的权值
+func (m *GoMap) SetEdge(x, y int, v float64) {
 	m.edges[x][y] = v
 	m.edges[y][x] = v
 	m.number++
 }
 
-func (m *GoMap) Edges() [][]int {
+//直接设置
+func (m *GoMap) SetEdges(v [][]float64) {
+	m.edges = v
+}
+func (m *GoMap) Edges() [][]float64 {
 	return m.edges
+}
+
+//获取顶点
+func (m *GoMap) GetVertices() []string {
+	return m.vertices
 }
 
 //得到第一个邻接节点的索引
