@@ -15,17 +15,16 @@ func SetCover(m map[interface{}][]interface{}) []interface{} {
 
 	//将切片转换为集合
 	mSet := make(map[interface{}]mapSet.Set)
-
 	for k, v := range m {
 		mSet[k] = mapSet.NewSetFromSlice(v)
 	}
 
 	//获取map集合所有不重复选项
 	a := mapSet.NewSet()
-
 	for _, set := range mSet {
 		a = a.Union(set)
 	}
+
 	//迭代集合
 	for e := range a.Iter() {
 		log.Println(e)
@@ -42,8 +41,8 @@ func SetCover(m map[interface{}][]interface{}) []interface{} {
 			//	求出set子集合和a总集合的交集，然后再求出当前子集合set最大未覆盖元素个数 l
 			l := len(set.Intersect(a).ToSlice())
 			//如果l==0说明子集合set，已经把总集合a已经全覆盖了
-			//如果l>0就说明还有未被覆盖的元素，如果当前这个集合包含的未覆盖元素的数量，比maxKey指向的未覆盖元素还多，重置maxKey
-			if l > 0 && (maxKey == nil || l > len(mSet[maxKey].ToSlice())) { //贪婪
+			//如果l>0就说明还有未被覆盖的元素，并且当前子集合包含的未覆盖元素的数量，比maxKey指向的未覆盖元素还多，重置maxKey
+			if l > 0 && (maxKey == nil || l > len(mSet[maxKey].ToSlice())) { //贪婪，找一轮覆盖最大的
 				maxKey = key
 			}
 		}
