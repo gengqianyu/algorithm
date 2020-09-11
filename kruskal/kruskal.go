@@ -3,6 +3,7 @@ package kruskal
 import (
 	"algorithm/graph"
 	"container/heap"
+	"fmt"
 )
 
 //定义图的边
@@ -68,6 +69,42 @@ func (h *MHeap) Pop() (v interface{}) {
 	return v
 }
 
+type Set []int
+
+//创建一个所有顶点集的总集，因为每个元素都等于下标，即都是单元素集合
+func (s *Set) Init(n int) *Set {
+	for n--; n >= 0; n-- {
+		(*s)[n] = n
+	}
+	return s
+}
+
+func NewSet(n int) *Set {
+	set := Set(make([]int, n))
+	return set.Init(n)
+}
+
+// 追溯某个集合，直至头部，头部的下标即表示集合的标识符
+func (s *Set) Trace(n int) int {
+	i, v := n, (*s)[n]
+	for v < n {
+		n = v
+		v = (*s)[n]
+	}
+	// 此操作是为了在扁平化追溯链条，在节点数量较大时节省查询时间
+	(*s)[i] = n
+	return n
+}
+
+// 合并两个集合，注意需保证i, j均为Trace返回的头部元素（索引下标）
+func (s *Set) Merge(i, j int) {
+	if i < j {
+		(*s)[j] = i
+	} else {
+		(*s)[i] = j
+	}
+}
+
 //利用克鲁斯卡尔算法解决最短路径问题
 //1首先图中所有图节点都创建为单元素的集合；然后将图的所有边,按长短排序。
 //2依次从小到大取出每一条边。如果某条边它的两个顶点点分属不同集合，则记录该边，并合并两个集合；否则丢弃该边。
@@ -77,6 +114,9 @@ func Kruskal(m *graph.GoMap) (s []*Node) {
 	//初始化最小堆
 	h := new(MHeap)
 	heap.Init(h)
+
+	//初始化集合
+	set := NewSet(len(m.GetVertices()))
 
 	//遍历矩阵, 将所有边加入最小堆中,小堆自然按边长排序
 	for i, row := range m.Edges() {
@@ -93,7 +133,17 @@ func Kruskal(m *graph.GoMap) (s []*Node) {
 		}
 	}
 
-	//2依次从小到大取出每一条边。如果某条边它的两个顶点点分属不同集合，则记录该边，并合并两个集合；否则丢弃该边。
+	//依次从小到大取出每一条边。
+	//如果某条边它的两个顶点点分属不同集合，则记录该边，并合并两个集合；否则丢弃该边。
+	for h.Len() > 0 {
+		n := heap.Pop(h).(*Node)
+		s := set.Trace(n.GetS())
+		e := set.Trace(n.GetE())
+		if s != e {
+			fmt.Printf("%-2d => %2d: %.4f\n", n.GetS(), n.GetE(), n.GetD())
+			set.Merge(s, e)
+		}
+	}
 
 	return s
 }
