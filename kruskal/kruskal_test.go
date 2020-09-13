@@ -32,6 +32,7 @@ func TestKruskal(t *testing.T) {
 	m.Add(vertices...)
 	m.SetEdges(MTX)
 
-	Kruskal(m)
-
+	for _, n := range Kruskal(m) {
+		t.Logf("%2d(%s) -> %2d(%s): %.4f\r\n", n.GetS(), m.GetVertices()[n.GetS()], n.GetE(), m.GetVertices()[n.GetE()], n.GetD())
+	}
 }
