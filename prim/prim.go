@@ -75,49 +75,52 @@ func (h *MHeap) clear() {
 	}
 }
 
-//普利姆算法，
-//在图的关系矩阵中，从当前顶点开始，在和当前顶点的关系顶点中，找边距离最小顶点，作为目的顶点，
-//找到目的顶点后，在一此目的顶点作为起始顶点继续寻找下一个目的顶点，
-//以此类推，直到所有顶点被访问过。退出。
+//普里姆算法，
+//1寻找图中任意顶点，以它为起点，它的所有边n加入集合(优先队列)h,设置一个boolean数组bool[]标记该顶点是否已访问。
+//2从集合h中找到距离最小的那个边t，并判断，边t的终点顶点e是否被访问过， 如果终点e被访问过那么直接跳过此顶点；继续寻找下一个最小边。
+// 如果未被标(访问)记那么标记该终点e,并且将与该终点顶点e相连的关系顶点(未被标记)构成的边加入集合(优先队列)h，边t就是此轮中要找的最小边.
+//重复1，2步骤，直到h优先队列为空，构成最小生成树 ！
 func Prim(m *graph.GoMap) (s []*Node) {
 	var i, j int                         //i当前顶点索引，j表示当前顶点的关系顶点索引
-	have := make([]byte, len(m.Edges())) //用来记录
-	h := new(MHeap)                      //定义一个小堆
+	have := make([]bool, len(m.Edges())) //用来标记顶点是否已访问
+
+	h := new(MHeap) //定义一个小堆，模拟优先队列
+	heap.Init(h)    //堆化
 
 	for {
-		//初始化当前顶点为已访问
-		have[i] = 1
-		//以i索引对应的顶点为起始顶点，将和起始顶点连接的其他顶点全部放入堆中，然后找到一个最小顶点，这就是要找的目的顶点
-		vertxNum := len(m.GetVertices())
+		//初始化当前起始顶点为已访问
+		have[i] = true
 
+		//以i索引对应的顶点为起始顶点，将和起始顶点连接的其他顶点全部放入堆（优先队列）中
+		vertxNum := len(m.GetVertices())
 		for j = 0; j < vertxNum; j++ {
-			//have[j]为零，就表示i索引对应的起始节点到j索引对应的关系顶点未访问过，就处理
-			if have[j] == 0 {
+			//起始顶点i到关系顶点j未访问过，就加入优先队列 ，否则直接不处理
+			if have[j] == false {
 				v := m.Edges()[i][j]
 				n := new(Node)
 				n.SetS(i)
 				n.SetE(j)
 				n.SetD(v)
-				h.Push(n)
+				heap.Push(h, n)
 			}
 		}
-
 		//顶点都已经访问h就不会添加数据了
 		if h.Len() == 0 {
 			break
 		}
-		//堆化
-		heap.Init(h)
+
 		//获取最小顶点
 		t := heap.Pop(h).(*Node)
-		//保存每一轮最小边节点
-		s = append(s, t)
-		//将目的边距最小的顶点设置为起始顶点，继续找下一轮的目的顶点
-		i = t.GetE()
-
-		//fmt.Printf("%2d -> %2d: %.4f\n", t.GetS(), t.GetE(), t.GetD())
-		//清空小堆
-		h.clear()
+		//如果最小边t的的终点e已经被访问过了就直接跳过，否则提取该边作为，本轮寻找的最小边保存
+		if have[t.GetE()] == true {
+			continue
+		} else {
+			//保存每一轮最小边节点
+			s = append(s, t)
+			//将目的边距最小的顶点设置为起始顶点，继续找下一轮的目的顶点
+			i = t.GetE()
+			//fmt.Printf("%2d -> %2d: %.4f\n", t.GetS(), t.GetE(), t.GetD())
+		}
 	}
 	return s
 }

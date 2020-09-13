@@ -140,7 +140,7 @@ func Kruskal(m *graph.GoMap) (s []*Node) {
 		s := set.Trace(n.GetS())
 		e := set.Trace(n.GetE())
 		if s != e {
-			fmt.Printf("%-2d => %2d: %.4f\n", n.GetS(), n.GetE(), n.GetD())
+			fmt.Printf("%2d => %2d: %.4f\n", n.GetS(), n.GetE(), n.GetD())
 			set.Merge(s, e)
 		}
 	}
