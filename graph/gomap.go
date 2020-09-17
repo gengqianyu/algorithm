@@ -149,6 +149,7 @@ func (m *GoMap) bfs(f func(string), i int) {
 func (m *GoMap) BFS() <-chan string {
 	o := make(chan string)
 	go func() {
+		//从第一个顶点开始，处理所有顶点
 		for i := 0; i < len(m.vertices); i++ {
 			if m.marks[i] == true {
 				continue
