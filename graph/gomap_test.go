@@ -36,12 +36,12 @@ func TestGoMap_Add(t *testing.T) {
 		fmt.Println()
 	}
 	//深度
-	for vertex := range goMap.DFS() {
-		fmt.Println(vertex)
-	}
-
-	//广度优先
-	//for vertex := range goMap.BFS() {
+	//for vertex := range goMap.DFS() {
 	//	fmt.Println(vertex)
 	//}
+
+	//广度优先
+	for vertex := range goMap.BFS() {
+		fmt.Println(vertex)
+	}
 }

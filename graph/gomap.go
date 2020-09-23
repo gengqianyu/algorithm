@@ -101,6 +101,7 @@ func (m *GoMap) dfs(f func(string), i int) {
 func (m *GoMap) DFS() <-chan string {
 	out := make(chan string)
 	go func() {
+		//遍历所有顶点的作为起始顶点，防止有一部分顶点，和另一部分顶点完全没有关系
 		for i := 0; i < len(m.vertices); i++ {
 			//如果顶点访问过就继续往下一个顶点
 			if m.marks[i] == true {
@@ -117,6 +118,7 @@ func (m *GoMap) DFS() <-chan string {
 }
 
 func (m *GoMap) bfs(f func(string), i int) {
+	//先处理第一个顶点
 	f(m.vertices[i])
 	m.marks[i] = true
 
@@ -143,7 +145,7 @@ func (m *GoMap) bfs(f func(string), i int) {
 		}
 
 	}
-
+	//log.Println()//查看分组情况
 }
 
 func (m *GoMap) BFS() <-chan string {
