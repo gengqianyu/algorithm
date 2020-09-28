@@ -32,7 +32,7 @@ func TestDijkstra(t *testing.T) {
 	m.Add(vertices...)
 	m.SetEdges(MTX)
 
-	for _, n := range Dijkstra(6, m) {
-		t.Log(n)
+	for i, n := range Dijkstra(6, m) {
+		t.Logf("g到%s的最短路径为：%d\r\n", m.GetVertices()[i], n)
 	}
 }
