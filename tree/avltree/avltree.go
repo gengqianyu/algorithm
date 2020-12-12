@@ -242,8 +242,10 @@ func (a *AVLTree) Add(n *Node) {
 func (a *AVLTree) Traverse() <-chan *Node {
 	out := make(chan *Node)
 	go func() {
+		//Traverse递归全部完成，才关闭通道out
 		a.root.Traverse(func(n *Node) {
 			out <- n
+			//close(out)//如果在函数内关闭通道，第一个发送完之后，后面的递归数据就没有通道可发了
 		})
 		close(out)
 	}()

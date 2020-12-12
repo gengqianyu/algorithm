@@ -2,6 +2,7 @@ package dijkstra
 
 import (
 	"algorithm/graph"
+	"fmt"
 	"testing"
 )
 
@@ -31,8 +32,14 @@ func TestDijkstra(t *testing.T) {
 	m := graph.New(N)
 	m.Add(vertices...)
 	m.SetEdges(MTX)
-
-	for i, n := range Dijkstra(6, m) {
-		t.Logf("g到%s的最短路径为：%d\r\n", m.GetVertices()[i], n)
+	start := 2
+	shortPath, prePath := Dijkstra(start, m)
+	t.Log(prePath)
+	for i, n := range shortPath {
+		t.Logf("%s到%s的最短路径为：%d\r\n", m.GetVertices()[start], m.GetVertices()[i], n)
+		for _, index := range prePath[i] {
+			fmt.Print(m.GetVertices()[index], "->")
+		}
+		fmt.Println()
 	}
 }
