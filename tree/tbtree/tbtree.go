@@ -1,4 +1,5 @@
 //thread binary tree
+//线索化二叉树
 package tbtree
 
 import (
