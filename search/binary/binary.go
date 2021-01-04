@@ -3,9 +3,15 @@ package binary
 
 //s slice for search
 //v value for match 匹配
+//第一步：找到中间索引
+//第二步：比较查找的值和索引对应的值
+//第三步：如果查找的值比索引对应值小，改变切片右边界索引为，中间索引减1。
+//		如果查找的值比索引对应值大，改变切片左边界索引为，中间索引加1。
+//		继续递归二分查找
+//第四步：如果查找值等于索引对应值，那么返回找到的索引。
 func Search(s []int, l, r, v int) int {
 	if l > r {
-		return -l
+		return -1
 	}
 
 	// defined mid
@@ -23,7 +29,7 @@ func Search(s []int, l, r, v int) int {
 	//默认s[m]=v
 	return m
 }
-
+//非递归形式实现
 func Search2(s []int, v int) int {
 	l, r := 0, len(s)-1
 	//只要l小于r就可以一直找
