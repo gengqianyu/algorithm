@@ -20,8 +20,11 @@ func main() {
 			if i == n {
 				break
 			}
-			e := <-x
-			fmt.Println(string(e))
+			if i == 0 {
+				fmt.Println(string('X'))
+			} else {
+				fmt.Println(string(<-x))
+			}
 			y <- 'Y'
 			i++
 		}
@@ -34,8 +37,7 @@ func main() {
 			if i == n {
 				break
 			}
-			e := <-y
-			fmt.Println(string(e))
+			fmt.Println(string(<-y))
 			z <- 'Z'
 			i++
 		}
@@ -48,8 +50,7 @@ func main() {
 			if i == n {
 				break
 			}
-			e := <-z
-			fmt.Println(string(e))
+			fmt.Println(string(<-z))
 			//预防最后一次发送
 			if i == n-1 {
 				break
@@ -58,6 +59,5 @@ func main() {
 			i++
 		}
 	}()
-	x <- 'X'
 	w.Wait()
 }
