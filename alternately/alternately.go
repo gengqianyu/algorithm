@@ -22,9 +22,10 @@ func main() {
 	x := make(chan rune)
 	y := make(chan rune)
 	z := make(chan rune)
-	wg.Add(3)
 	//w := CreateWorker(&wg)
 	o := consumer(&wg)
+	wg.Add(3)
+
 	n := 10
 
 	go func() {
@@ -76,6 +77,7 @@ func main() {
 			o <- <-z
 			//预防最后一次发送
 			if i == n-1 {
+				close(o)
 				break
 			}
 			x <- 'X'
@@ -113,9 +115,10 @@ func CreateWorker(group *sync.WaitGroup) worker {
 
 func consumer(group *sync.WaitGroup) chan rune {
 	o := make(chan rune)
+	group.Add(1)
 	go func() {
-		defer close(o)
 		defer group.Done()
+		//注意 range 一个 channel，会一直阻塞当前协程，如果在其他协程中调用了close(ch),那么此协程就会跳出 for range循环。这也就是for range的特别之处
 		for v := range o {
 			fmt.Println(string(v))
 		}
