@@ -15,7 +15,11 @@ func main() {
 	//
 	//与此同时，Wait可以用来阻塞直到所有的goroutine完成。
 	//
-	//重点 *WaitGroup不能在第一次使用后复制*。
+	//重点 *WaitGroup不能在第一次使用后复制*。执行一下三行会发生错误
+	//wg := sync.WaitGroup{}
+	//yawg := wg
+	//fmt.Println(wg, yawg)
+
 	var wg sync.WaitGroup
 
 	// 定义 pipeline 用于三个 goroutine 之间进行通信
@@ -24,7 +28,7 @@ func main() {
 	z := make(chan rune)
 	//w := CreateWorker(&wg)
 	o := consumer(&wg)
-	wg.Add(3)
+	wg.Add(3) //更新计数器
 
 	n := 10
 
@@ -83,7 +87,13 @@ func main() {
 			i++
 		}
 	}()
+	//sync.WaitGroup.Wait 会在计数器大于 0 并且不存在等待的 Goroutine 时，调用 runtime.sync_runtime_Semacquire 让调用 wg.Wait函数的 goroutine 陷入睡眠。
+	//main goroutine 在这里等待，当调用计数器归零，即所有任务都执行完成时，才会通过 sync.runtime_Semrelease 唤醒处于等待状态的 main Goroutine。
 	wg.Wait()
+
+	//sync.WaitGroup 必须在 sync.WaitGroup.Wait 方法返回之后才能被重新使用；
+	//sync.WaitGroup.Done 只是对 sync.WaitGroup.Add 方法的简单封装，我们可以向 sync.WaitGroup.Add 方法传入任意负数（需要保证计数器非负）快速将计数器归零以唤醒等待的 Goroutine；
+	//可以同时有多个 Goroutine 等待当前 sync.WaitGroup 计数器的归零，这些 Goroutine 会被同时唤醒；也就是可以有多个 goroutine 同时执行 sync.WaitGroup.wait() 方法
 }
 
 type worker struct {
