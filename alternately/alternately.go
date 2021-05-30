@@ -41,7 +41,6 @@ func main() {
 			if i == 0 {
 				//w.pipeline <- 'X'
 				o <- 'X'
-
 			} else {
 				//w.pipeline <- <-x
 				o <- <-x
@@ -118,7 +117,8 @@ func consumer(group *sync.WaitGroup) chan rune {
 	group.Add(1)
 	go func() {
 		defer group.Done()
-		//注意 range 一个 channel，会一直阻塞当前协程，如果在其他协程中调用了close(ch),那么此协程就会跳出 for range循环。这也就是for range的特别之处
+		//注意 range 一个 channel，会一直阻塞当前 goroutine 协程，
+		//如果在其他协程中调用了close(ch),那么此协程就会跳出 for range o 。这也就是 for range 的特别之处
 		for v := range o {
 			fmt.Println(string(v))
 		}
