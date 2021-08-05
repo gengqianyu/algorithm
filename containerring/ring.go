@@ -48,13 +48,14 @@ func (r *Ring) Prev() *Ring {
 	return r.prev
 }
 
-// 链表r与链表s是不同链表，则在r链表的后面链接s链表，否则删除相同部分
+// Link 连接两个环形链表
+//链表 r 与链表 s 是不同链表，则在 r 链表的后面链接 s 链表，否则删除相同部分
 //这里需要注意的是两个环断开之后才能连接，所以是连接两个节点是双向四处位置
 func (r *Ring) Link(s *Ring) *Ring {
 	//获取r的下一个节点，以便在r和s连接之后，以便处理之前r的下一个节点的prev
 	n := r.Next()
 	if s != nil {
-		//获取s环的上一个节点，以便r和s连接之后，以便处理
+		//获取 s 环的上一个节点，以便 r 和 s 连接之后，以便处理
 		p := s.Prev()
 		//接第一个位置 双向
 		r.next = s
@@ -66,7 +67,7 @@ func (r *Ring) Link(s *Ring) *Ring {
 	return n
 }
 
-// 从下一个元素开始，移除链表连续n个元素
+// UnLink 方法从下一个元素开始，移除链表连续n个元素
 func (r *Ring) UnLink(n int) *Ring {
 	if n < 0 {
 		return nil
@@ -76,7 +77,7 @@ func (r *Ring) UnLink(n int) *Ring {
 	return r.Link(r.Move(n + 1))
 }
 
-//将前面n个元素移到后面，例：0,1,2,3,4,5 => 3,4,5,0,1,2
+// Move 方法将 r 环的前面 n 个元素移到后面，例：0,1,2,3,4,5 => 3,4,5,0,1,2
 func (r *Ring) Move(n int) *Ring {
 	if r.next == nil {
 		return r.init()
@@ -109,9 +110,8 @@ func (r *Ring) Len() int {
 	return n
 }
 
-//以向前的顺序在环的每个元素上调用函数f。
+// Do 方法以向前的顺序在环的每个元素上调用函数f。
 //如果f改变* r，则Do的行为是不确定的。
-
 func (r *Ring) Do(f func(interface{})) {
 	if r != nil {
 		f(r.Value)

@@ -44,7 +44,7 @@ func joseph(r *Ring, s, j int) *Ring {
 	}
 	r = r.Move(s - 1)
 
-	i := 1
+	i := 1 //标识数到的数
 	for {
 		if r == r.Next() {
 			break
