@@ -87,12 +87,12 @@ func (l *List) insert(e, at *Element) *Element {
 	n := at.next //获取at.next 元素
 
 	at.next = e //让at.next指向新元素e
-	e.prev = at // 设置e的上一个元素为at
+	e.prev = at // 设置新元素e的上一个元素为at
 
-	e.next = n // 设置e的下一个元素，n
+	e.next = n // 设置新元素e的下一个元素，n
 	n.prev = e // 设置n的上一个元素为 新元素e
 
-	e.list = l // 设置e的所属链表
+	e.list = l // 设置新元素e的所属链表
 
 	l.len++
 	return e
