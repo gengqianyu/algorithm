@@ -11,7 +11,7 @@ type Element struct {
 	Value interface{}
 }
 
-//Next返回下一个链表元素或nil。
+// Next 方法返回下一个链表元素或nil。
 func (e *Element) Next() *Element {
 	if p := e.next; p != nil && p != &e.list.root {
 		return p
@@ -87,12 +87,12 @@ func (l *List) insert(e, at *Element) *Element {
 	n := at.next //获取at.next 元素
 
 	at.next = e //让at.next指向新元素e
-
 	e.prev = at // 设置e的上一个元素为at
-	e.next = n  // 设置e的下一个元素，n
-	e.list = l  // 设置e的所属链表
 
+	e.next = n // 设置e的下一个元素，n
 	n.prev = e // 设置n的上一个元素为 新元素e
+
+	e.list = l // 设置e的所属链表
 
 	l.len++
 	return e
@@ -158,7 +158,7 @@ func (l *List) move(e, at *Element) *Element {
 	return e
 }
 
-// 在mark 之前插入element
+// InsertBefore 方法 在 mark 之前插入 element
 func (l *List) InsertBefore(v interface{}, mark *Element) *Element {
 	if mark.list != l {
 		return nil
