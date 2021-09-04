@@ -11,7 +11,7 @@
 
 package stack
 
-//defined a element struct
+// Element defined a element struct
 type Element struct {
 	value interface{}
 	prev  *Element

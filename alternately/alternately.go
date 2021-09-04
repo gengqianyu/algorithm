@@ -7,18 +7,18 @@ import (
 
 func main() {
 
-	//WaitGroup等待一组goroutine完成。
+	//WaitGroup 等待一组 goroutine 完成。
 	//
-	//主goroutine调用Add来设置要等待的goroutine的数量。
+	//主 goroutine 调用 Add 来设置要等待的 goroutine 的数量。
 	//
-	//然后每个goroutine运行并在完成时调用Done。
+	//然后每个 goroutine 运行并在完成时调用 Done。
 	//
-	//与此同时，Wait可以用来阻塞直到所有的goroutine完成。
+	//与此同时，Wait 可以用来阻塞直到所有的 goroutine 完成。
 	//
-	//重点 *WaitGroup不能在第一次使用后复制*。执行一下三行会发生错误
-	//wg := sync.WaitGroup{}
-	//yawg := wg
-	//fmt.Println(wg, yawg)
+	//重点* WaitGroup 不能在第一次使用后复制 *。执行一下三行会发生错误
+	//wgp := sync.WaitGroup{}
+	//yawg := wgp
+	//fmt.Println(wgp, yawg)
 
 	var wg sync.WaitGroup
 
@@ -104,7 +104,9 @@ type worker struct {
 func CreateWorker(group *sync.WaitGroup) worker {
 
 	w := worker{
+
 		pipeline: make(chan rune),
+
 		done: func() {
 			group.Done()
 		},

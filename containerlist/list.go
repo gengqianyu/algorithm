@@ -84,7 +84,7 @@ func (l *List) Back() *Element {
 // increments l.len
 // returns e
 func (l *List) insert(e, at *Element) *Element {
-	n := at.next //获取at.next 元素
+	n := at.next //获取 at 的下一个元素
 
 	at.next = e //让at.next指向新元素e
 	e.prev = at // 设置新元素e的上一个元素为at
