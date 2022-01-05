@@ -13,7 +13,7 @@ func main() {
 	//
 	//然后每个 goroutine 运行并在完成时调用 Done。
 	//
-	//与此同时，Wait 可以用来阻塞直到所有的 goroutine 完成。
+	//与此同时，Wait 可以用来阻塞当前 goroutine 直到所有的 goroutine 完成。
 	//
 	//重点* WaitGroup 不能在第一次使用后复制 *。执行一下三行会发生错误
 	//wgp := sync.WaitGroup{}
@@ -33,7 +33,7 @@ func main() {
 	n := 10
 
 	go func() {
-		//注意要先通知 WaitGroup goroutine 完成任务,然后再关闭通道
+		//注意要先通知 WaitGroup， goroutine 完成任务,然后再关闭通道
 		//注意 defer 执行顺序是先进后出，因此执行顺序是 先 wg.Done() 后 close(x)
 		defer close(x)
 		defer wg.Done()
@@ -130,7 +130,7 @@ func consumer(group *sync.WaitGroup) chan rune {
 	go func() {
 		defer group.Done()
 		//注意 range 一个 channel，会一直阻塞当前 goroutine 协程，
-		//如果在其他协程中调用了close(ch),那么此协程就会跳出 for range o 。这也就是 for range 的特别之处
+		//如果在其他协程中调用了 close(ch),那么此协程就会跳出 for range o 。这也就是 for range 的特别之处。
 		for v := range o {
 			fmt.Println(string(v))
 		}
